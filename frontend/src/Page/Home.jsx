@@ -21,7 +21,7 @@ const Home = () => {
             Super Admin Login
           </Button>
         </Link>
-        <Link to="/super_admin/login">
+        <Link to="/partner/login">
           <Button
             colorScheme={"whatsapp"}
             p={8}
