@@ -19,7 +19,34 @@ const getPartnerData = async (req, res) => {
   }
 };
 
+const updatePartnerData = async (req, res) => {
+  let { id } = req.params;
+  try {
+    let updatedData = await PartnerModal.findByIdAndUpdate(
+      id,
+      { ...req.body },
+      { new: true }
+    );
+
+    res.status(200).send({ message: "success", data: updatedData });
+  } catch (er) {
+    res.status(401).send({ status: "error", msg: er.message });
+  }
+};
+
+const deletePartnerData = async (req, res) => {
+  let { id } = req.params;
+  try {
+    let deletedData = await PartnerModal.findByIdAndDelete(id);
+    res.status(200).send({ message: "success", data: deletedData });
+  } catch (er) {
+    res.status(401).send({ status: "error", msg: er.message });
+  }
+};
+
 module.exports = {
   addPartner,
   getPartnerData,
+  updatePartnerData,
+  deletePartnerData,
 };

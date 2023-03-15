@@ -1,5 +1,4 @@
 import { Box, Button, Center, Heading } from "@chakra-ui/react";
-import React from "react";
 import {
   Table,
   Thead,
@@ -11,17 +10,27 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import AdminTable from "../component/AdminTable";
+import CreatepartnerModal from "../component/CreatepartnerModal";
+import { getPartnerData } from "../store/Partner/partner.action";
 
 const AdminDashboard = () => {
+  const dispatch = useDispatch();
+  const { data } = useSelector((store) => store.partner);
+
+  useEffect(() => {
+    dispatch(getPartnerData());
+  }, []);
+
   return (
     <Box>
       <Heading textAlign={"center"} mt="2%">
         Admin Dashboard
       </Heading>
       <Center>
-        <Button colorScheme={"whatsapp"} my="2%">
-          Create Partner
-        </Button>
+        <CreatepartnerModal />
       </Center>
 
       <TableContainer w={"80%"} m="auto">
@@ -37,11 +46,7 @@ const AdminDashboard = () => {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>inches</Td>
-              <Td>millimetres (mm)</Td>
-              <Td isNumeric>25.4</Td>
-            </Tr>
+            <AdminTable data={data} />
           </Tbody>
         </Table>
       </TableContainer>
