@@ -57,7 +57,7 @@ const UpdatePartnerModal = ({ id }) => {
           <ModalHeader>Update partner form</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
               <Input
                 type={"text"}
                 name="Partner_name"
@@ -67,7 +67,7 @@ const UpdatePartnerModal = ({ id }) => {
               <br />
               <br />
               <Input
-                type={"text"}
+                type={"email"}
                 placeholder="Partner email"
                 name="Partner_email"
                 onChange={handleChange}

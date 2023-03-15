@@ -1,10 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import AddEvent from "../Page/AddEvent";
 import AdminDashboard from "../Page/AdminDashboard";
 import AdminLogin from "../Page/AdminLogin";
 import ErrorPage from "../Page/ErrorPage";
 import Home from "../Page/Home";
 import PartnerLogin from "../Page/PartnerLogin";
+import ThankYou from "../Page/ThankYou";
 
 const AllRoute = () => {
   return (
@@ -13,8 +15,8 @@ const AllRoute = () => {
       <Route path="/super_admin/login" element={<AdminLogin />} />
       <Route path="/super_admin/dashboard" element={<AdminDashboard />} />
       <Route path="/:name/login" element={<PartnerLogin />} />
-      <Route path="/partner-name/add_event" element={<Home />} />
-      <Route path="/partner-name/thankyoupage" element={<Home />} />
+      <Route path="/:name/add_event" element={<AddEvent />} />
+      <Route path="/:name/thankyoupage" element={<ThankYou />} />
       <Route path="/*" element={<ErrorPage />} />
     </Routes>
   );

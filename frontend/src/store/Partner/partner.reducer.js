@@ -22,9 +22,9 @@ const initData = {
 export const partnerReducer = (state = initData, { type, payload }) => {
   switch (type) {
     case GET_PARTNER_DATA_LOADING:
-      return { ...state, loading: true, error: false };
+      return { ...state, loading: true, error: false, data: [] };
     case GET_PARTNER_DATA_ERROR:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: true, data: [] };
     case GET_PARTNER_DATA_SUCCESS:
       return { ...state, loading: false, error: false, data: payload };
     case ADD_PARTNER_DATA_LOADING:
@@ -36,7 +36,7 @@ export const partnerReducer = (state = initData, { type, payload }) => {
         ...state,
         loading: false,
         error: false,
-        data: payload,
+        data: [],
       };
     case DELETE_PARTNER_DATA_LOADING:
       return { ...state, loading: true, error: false };

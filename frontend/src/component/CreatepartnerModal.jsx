@@ -58,7 +58,7 @@ const CreatepartnerModal = () => {
               <br />
               <br />
               <Input
-                type={"text"}
+                type={"email"}
                 placeholder="Partner email"
                 name="Partner_email"
                 onChange={handleChange}
