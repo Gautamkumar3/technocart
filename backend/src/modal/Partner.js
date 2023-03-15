@@ -12,10 +12,11 @@ const PartnerSchema = new mongoose.Schema({
   },
 });
 
-PartnerSchema.post("save", function () {
+PartnerSchema.pre("save", function (next) {
   let name = this.Partner_name;
   let pname = name.split(" ").join("").toLowerCase();
   this.Login_link = `${"localthost"}/${pname}/login`;
+  next();
 });
 
 const Partner = mongoose.model("partner", PartnerSchema);
