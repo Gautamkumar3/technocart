@@ -1,4 +1,7 @@
 const PartnerModal = require("../modal/Partner");
+const sendEmail = require("../utils/sendEmail");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 const addPartner = async (req, res) => {
   try {
@@ -44,9 +47,42 @@ const deletePartnerData = async (req, res) => {
   }
 };
 
+const partnerLogin = async (req, res) => {
+  const { email } = req.body;
+  const otp = Math.floor(Math.random() * 100000);
+
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    secure: false,
+    auth: {
+      user: `${process.env.EMAIL}`,
+      password: `${process.env.PASSWORD}`,
+    },
+  });
+
+  let details = {
+    from: `${process.env.EMAIL}`,
+    to: email,
+    subject: "OTP",
+    html: `Hello ${email}, this is your OTP : ${otp}`,
+  };
+
+  transport.sendMail(details, function (err, data) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Email sent successfully");
+    }
+  });
+
+  res.send("success");
+};
+
 module.exports = {
   addPartner,
   getPartnerData,
   updatePartnerData,
   deletePartnerData,
+  // partnerLogin,
 };

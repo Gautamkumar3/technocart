@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Select,
   Text,
@@ -11,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddEvent = () => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -25,6 +26,7 @@ const AddEvent = () => {
   });
   const toast = useToast();
   const { name } = useParams();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,15 +38,7 @@ const AddEvent = () => {
     axios
       .post("http://localhost:8080/event", { ...data, Event_photo: imageUrl })
       .then((res) => {
-        setData({
-          Event_name: "",
-          Country: "",
-          State: "",
-          City: "",
-          Pincode: "",
-          Event_photo: "",
-        });
-        // setImageUrl(null);
+        navigate(`/${name}/thankyoupage`);
       });
   };
 
@@ -84,7 +78,9 @@ const AddEvent = () => {
 
   return (
     <Box>
-      {" "}
+      <Heading textAlign={"center"} my="3%" color="whatsapp.600">
+        Event Form
+      </Heading>
       <Flex
         boxShadow="md"
         p="6"
