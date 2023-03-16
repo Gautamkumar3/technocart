@@ -1,11 +1,14 @@
 import { Box, Button, Flex, Heading, Input } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
   const [data, setData] = useState({
-    Partner_name: "",
-    Partner_email: "",
+    email: "",
+    password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,6 +17,20 @@ const AdminLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(data);
+    axios
+      .post("http://localhost:8080/admin/login", data)
+      .then((res) => {
+        if ((res.data.msg = "Login successfull")) {
+          alert("Login successfull");
+          navigate("/super_admin/dashboard");
+        } else {
+          alert("Login failed");
+        }
+      })
+      .catch((er) => {
+        alert("Login failed");
+      });
   };
 
   return (
@@ -25,7 +42,7 @@ const AdminLogin = () => {
         <form onSubmit={handleSubmit}>
           <Input
             type={"email"}
-            name="admin-email"
+            name="email"
             placeholder="admin email"
             onChange={handleChange}
           />
@@ -33,7 +50,7 @@ const AdminLogin = () => {
           <br />
           <Input
             type={"text"}
-            name="admin-passowrd"
+            name="password"
             placeholder="admin password"
             onChange={handleChange}
           />

@@ -1,5 +1,4 @@
 const PartnerModal = require("../modal/Partner");
-const sendEmail = require("../utils/sendEmail");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
@@ -51,32 +50,41 @@ const partnerLogin = async (req, res) => {
   const { email } = req.body;
   const otp = Math.floor(Math.random() * 100000);
 
-  const transport = nodemailer.createTransport({
-    service: "gmail",
-    host: "smtp.gmail.com",
-    secure: false,
-    auth: {
-      user: `${process.env.EMAIL}`,
-      password: `${process.env.PASSWORD}`,
-    },
-  });
-
-  let details = {
-    from: `${process.env.EMAIL}`,
-    to: email,
-    subject: "OTP",
-    html: `Hello ${email}, this is your OTP : ${otp}`,
-  };
-
-  transport.sendMail(details, function (err, data) {
-    if (err) {
-      console.log(err);
+  try {
+    let partnerData = await PartnerModal.findOne({ Partner_email: email });
+    if (partnerData) {
+      res.status(200).send("Login successfull");
     } else {
-      console.log("Email sent successfully");
+      res.status(404).send("No partner found");
     }
-  });
+  } catch (er) {
+    res.status(401).send({ status: "error", msg: er.message });
+  }
 
-  res.send("success");
+  // const transport = nodemailer.createTransport({
+  //   service: "gmail",
+  //   host: "smtp.gmail.com",
+  //   secure: false,
+  //   auth: {
+  //     user: `${process.env.EMAIL}`,
+  //     password: `${process.env.PASSWORD}`,
+  //   },
+  // });
+
+  // let details = {
+  //   from: `${process.env.EMAIL}`,
+  //   to: email,
+  //   subject: "OTP",
+  //   html: `Hello ${email}, this is your OTP : ${otp}`,
+  // };
+
+  // transport.sendMail(details, function (err, data) {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log("Email sent successfully");
+  //   }
+  // });
 };
 
 module.exports = {
@@ -84,5 +92,5 @@ module.exports = {
   getPartnerData,
   updatePartnerData,
   deletePartnerData,
-  // partnerLogin,
+  partnerLogin,
 };

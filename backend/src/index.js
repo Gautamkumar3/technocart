@@ -4,6 +4,7 @@ const dbConnect = require("./config/db");
 const mongoose = require("mongoose");
 const eventRouter = require("./route/eventRoute");
 const partnerRouter = require("./route/partnerRoute");
+const adminRouter = require("./route/adminRoute");
 mongoose.set("strictQuery", true);
 require("dotenv").config();
 
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 app.use("/event", eventRouter);
 app.use("/partner", partnerRouter);
+app.use("/admin", adminRouter);
 
 app.listen(PORT, async () => {
   await dbConnect();
