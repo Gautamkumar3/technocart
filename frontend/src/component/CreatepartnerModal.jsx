@@ -10,6 +10,7 @@ import {
   useDisclosure,
   Button,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import {
@@ -24,6 +25,7 @@ const CreatepartnerModal = () => {
     Partner_email: "",
   });
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,9 +34,26 @@ const CreatepartnerModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addPartnerToDatabase(data)).then((res) =>
-      dispatch(getPartnerData())
-    );
+    dispatch(addPartnerToDatabase(data))
+      .then((res) => {
+        dispatch(getPartnerData());
+        toast({
+          title: "Partner created",
+          status: "success",
+          duration: 5000,
+          position: "top",
+          isClosable: true,
+        });
+      })
+      .catch((er) => {
+        toast({
+          title: `${er.message}`,
+          status: "error",
+          duration: 5000,
+          position: "top",
+          isClosable: true,
+        });
+      });
   };
 
   return (

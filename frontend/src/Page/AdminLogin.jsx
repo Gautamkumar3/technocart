@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Heading, Input } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
   const [data, setData] = useState({
@@ -23,6 +23,7 @@ const AdminLogin = () => {
       .then((res) => {
         if ((res.data.msg = "Login successfull")) {
           alert("Login successfull");
+          localStorage.setItem("email", JSON.stringify(data.email));
           navigate("/super_admin/dashboard");
         } else {
           alert("Login failed");

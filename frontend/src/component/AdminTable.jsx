@@ -1,5 +1,5 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Td, Tr } from "@chakra-ui/react";
+import { Td, Tr, useToast } from "@chakra-ui/react";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -11,13 +11,30 @@ import UpdatePartnerModal from "./UpdatePartnerModal";
 
 const AdminTable = ({ data }) => {
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const handleDelete = (id) => {
     console.log(id);
-    dispatch(deletePartnerToDatabase(id)).then((res) => {
-      dispatch(getPartnerData());
-      console.log(res);
-    });
+    dispatch(deletePartnerToDatabase(id))
+      .then((res) => {
+        dispatch(getPartnerData());
+        toast({
+          title: `Partner deleted successfully`,
+          status: "success",
+          duration: 5000,
+          position: "top",
+          isClosable: true,
+        });
+      })
+      .catch((er) => {
+        toast({
+          title: `${er.message}`,
+          status: "error",
+          duration: 5000,
+          position: "top",
+          isClosable: true,
+        });
+      });
   };
 
   return (

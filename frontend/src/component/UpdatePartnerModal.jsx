@@ -10,6 +10,7 @@ import {
   useDisclosure,
   Button,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import {
@@ -26,6 +27,7 @@ const UpdatePartnerModal = ({ id }) => {
     Partner_email: "",
   });
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,10 +43,26 @@ const UpdatePartnerModal = ({ id }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    dispatch(
-      updatePartnerToDatabase(id, { ...data, Login_link: getLink() })
-    ).then((res) => dispatch(getPartnerData()));
+    dispatch(updatePartnerToDatabase(id, { ...data, Login_link: getLink() }))
+      .then((res) => {
+        dispatch(getPartnerData());
+        toast({
+          title: "Partner data updated",
+          status: "success",
+          duration: 5000,
+          position: "top",
+          isClosable: true,
+        });
+      })
+      .catch((er) => {
+        toast({
+          title: `${er.message}`,
+          status: "error",
+          duration: 5000,
+          position: "top",
+          isClosable: true,
+        });
+      });
   };
 
   return (
@@ -57,7 +75,7 @@ const UpdatePartnerModal = ({ id }) => {
           <ModalHeader>Update partner form</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form onSubmit={handleSubmit} >
+            <form onSubmit={handleSubmit}>
               <Input
                 type={"text"}
                 name="Partner_name"

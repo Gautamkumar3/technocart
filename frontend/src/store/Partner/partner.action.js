@@ -15,26 +15,31 @@ import {
 } from "./partner.type";
 
 const api = "http://localhost:8080";
+const email = JSON.parse(localStorage.getItem("email"));
 
-export const getPartnerData = (page=1, limit=10) => async (dispatch) => {
-  dispatch({ type: GET_PARTNER_DATA_LOADING });
-  try {
-    const res = await axios.get(`${api}/partner?page=${page}&limit=${limit}`);
-    dispatch({
-      type: GET_PARTNER_DATA_SUCCESS,
-      payload: { data: res.data.data, length: res.data.length },
-    });
+export const getPartnerData =
+  (page = 1, limit = 10) =>
+  async (dispatch) => {
+    dispatch({ type: GET_PARTNER_DATA_LOADING });
+    try {
+      const res = await axios.get(`${api}/partner?page=${page}&limit=${limit}`);
+      dispatch({
+        type: GET_PARTNER_DATA_SUCCESS,
+        payload: { data: res.data.data, length: res.data.length },
+      });
 
-    return res;
-  } catch (er) {
-    return dispatch({ type: GET_PARTNER_DATA_ERROR, payload: er });
-  }
-};
+      return res;
+    } catch (er) {
+      return dispatch({ type: GET_PARTNER_DATA_ERROR, payload: er });
+    }
+  };
 
 export const addPartnerToDatabase = (data) => async (dispatch) => {
   dispatch({ type: ADD_PARTNER_DATA_LOADING });
   try {
-    const res = await axios.post(`${api}/partner`, data);
+    const res = await axios.post(`${api}/partner`, data, {
+      headers: { email: email },
+    });
     dispatch({ type: ADD_PARTNER_DATA_SUCCESS, payload: res.data.data });
     return res.data;
   } catch (er) {
@@ -45,7 +50,9 @@ export const addPartnerToDatabase = (data) => async (dispatch) => {
 export const deletePartnerToDatabase = (id) => async (dispatch) => {
   dispatch({ type: DELETE_PARTNER_DATA_LOADING });
   try {
-    const res = await axios.delete(`${api}/partner/${id}`);
+    const res = await axios.delete(`${api}/partner/${id}`, {
+      headers: { email: email },
+    });
     dispatch({ type: DELETE_PARTNER_DATA_SUCCESS, payload: res.data.data });
     return res.data;
   } catch (er) {
@@ -57,7 +64,9 @@ export const updatePartnerToDatabase = (id, data) => async (dispatch) => {
   console.log(id, data);
   dispatch({ type: UPDATE_PARTNER_DATA_LOADING });
   try {
-    const res = await axios.patch(`${api}/partner/${id}`, data);
+    const res = await axios.patch(`${api}/partner/${id}`, data, {
+      headers: { email: email },
+    });
     dispatch({ type: UPDATE_PARTNER_DATA_SUCCESS, payload: res.data.data });
     return res.data;
   } catch (er) {
