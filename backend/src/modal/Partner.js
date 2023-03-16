@@ -18,7 +18,7 @@ const PartnerSchema = new mongoose.Schema({
 PartnerSchema.pre("save", function (next) {
   let name = this.Partner_name;
   let pname = name.split(" ").join("").toLowerCase();
-  this.Login_link = `${"http://localhost:3000"}/${pname}/login`;
+  this.Login_link = `${"https://technocart.vercel.app"}/${pname}/login`;
   next();
 });
 

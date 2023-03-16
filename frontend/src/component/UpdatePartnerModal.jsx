@@ -37,7 +37,7 @@ const UpdatePartnerModal = ({ id }) => {
   function getLink() {
     let name = data.Partner_name;
     let pname = name.split(" ").join("").toLowerCase();
-    let Login_link = `${"http://localhost:3000"}/${pname}/login`;
+    let Login_link = `${"https://technocart.vercel.app"}/${pname}/login`;
     return Login_link;
   }
 
