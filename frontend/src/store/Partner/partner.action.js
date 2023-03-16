@@ -16,11 +16,15 @@ import {
 
 const api = "http://localhost:8080";
 
-export const getPartnerData = () => async (dispatch) => {
+export const getPartnerData = (page=1, limit=10) => async (dispatch) => {
   dispatch({ type: GET_PARTNER_DATA_LOADING });
   try {
-    const res = await axios.get(`${api}/partner`);
-    dispatch({ type: GET_PARTNER_DATA_SUCCESS, payload: res.data.data });
+    const res = await axios.get(`${api}/partner?page=${page}&limit=${limit}`);
+    dispatch({
+      type: GET_PARTNER_DATA_SUCCESS,
+      payload: { data: res.data.data, length: res.data.length },
+    });
+
     return res;
   } catch (er) {
     return dispatch({ type: GET_PARTNER_DATA_ERROR, payload: er });

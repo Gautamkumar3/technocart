@@ -1,0 +1,22 @@
+import { Button } from "@chakra-ui/react";
+
+function Pagination({ total, current, changePage }) {
+    console.log(total)
+  let pages = new Array(total).fill(0).map((el, i) => {
+    return (
+      <Button
+        colorScheme={"green"}
+        ml={1}
+        key={i + 1}
+        onClick={() => changePage(i + 1)}
+        disabled={current === i + 1}
+      >
+        {i + 1}
+      </Button>
+    );
+  });
+
+  return pages;
+}
+
+export default Pagination;

@@ -16,6 +16,7 @@ import {
 const initData = {
   loading: false,
   error: false,
+  length: 0,
   data: [],
 };
 
@@ -26,7 +27,13 @@ export const partnerReducer = (state = initData, { type, payload }) => {
     case GET_PARTNER_DATA_ERROR:
       return { ...state, loading: false, error: true, data: [] };
     case GET_PARTNER_DATA_SUCCESS:
-      return { ...state, loading: false, error: false, data: payload };
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        data: payload.data,
+        length: payload.length,
+      };
     case ADD_PARTNER_DATA_LOADING:
       return { ...state, loading: true, error: false };
     case ADD_PARTNER_DATA_ERROR:

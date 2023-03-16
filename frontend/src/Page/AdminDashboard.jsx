@@ -10,19 +10,24 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AdminTable from "../component/AdminTable";
 import CreatepartnerModal from "../component/CreatepartnerModal";
+import Pagination from "../component/Pagination";
 import { getPartnerData } from "../store/Partner/partner.action";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
-  const { data } = useSelector((store) => store.partner);
+  const { data, length } = useSelector((store) => store.partner);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  console.log(length);
 
   useEffect(() => {
-    dispatch(getPartnerData());
-  }, []);
+    dispatch(getPartnerData(page, limit));
+  }, [page, limit]);
 
   return (
     <Box>
@@ -50,6 +55,13 @@ const AdminDashboard = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      <Center my="3%">
+        <Pagination
+          total={Math.ceil(length / limit)}
+          current={page}
+          changePage={setPage}
+        />
+      </Center>
     </Box>
   );
 };
