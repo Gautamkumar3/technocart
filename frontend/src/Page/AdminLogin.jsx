@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Input } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Input, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
 import { json, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ const AdminLogin = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,20 +18,39 @@ const AdminLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
+
     axios
       .post("http://localhost:8080/admin/login", data)
       .then((res) => {
-        if ((res.data.msg = "Login successfull")) {
-          alert("Login successfull");
-          localStorage.setItem("email", JSON.stringify(data.email));
+        console.log(res.data);
+        if ((res.data.message = "Login successfull")) {
+          toast({
+            title: `${res.data.message}`,
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
+          localStorage.setItem("token", JSON.stringify(res.data.token));
           navigate("/super_admin/dashboard");
         } else {
-          alert("Login failed");
+          toast({
+            title: `Login failed`,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
         }
       })
       .catch((er) => {
-        alert("Login failed");
+        toast({
+          title: `${er.response?.data.message}`,
+          status: `${er.response?.data.status}`,
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
       });
   };
 
