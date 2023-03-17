@@ -1,5 +1,10 @@
+const jwt = require("jsonwebtoken");
+const secretKey = process.env.SECRET_KEY;
+
 const AdminMiddleWare = (req, res, next) => {
-  if (req.headers.email === "admin@gmail.com") {
+  const { token } = req.headers;
+  let decodedToken = jwt.decode(token, secretKey);
+  if (decodedToken.role === "admin") {
     next();
   } else {
     res

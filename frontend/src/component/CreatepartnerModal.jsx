@@ -34,9 +34,9 @@ const CreatepartnerModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addPartnerToDatabase(data))
-      .then((res) => {
-        dispatch(getPartnerData());
+    dispatch(addPartnerToDatabase(data)).then((res) => {
+      dispatch(getPartnerData());
+      if (res.status === "success") {
         toast({
           title: "Partner created",
           status: "success",
@@ -44,16 +44,16 @@ const CreatepartnerModal = () => {
           position: "top",
           isClosable: true,
         });
-      })
-      .catch((er) => {
+      } else {
         toast({
-          title: `${er.message}`,
+          title: `${res.response.data.msg || "Something went wrong"}`,
           status: "error",
           duration: 5000,
           position: "top",
           isClosable: true,
         });
-      });
+      }
+    });
   };
 
   return (

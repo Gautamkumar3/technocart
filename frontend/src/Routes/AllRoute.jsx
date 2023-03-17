@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import PrivateRoute from "../component/PrivateRoute";
 import AddEvent from "../Page/AddEvent";
 import AdminDashboard from "../Page/AdminDashboard";
 import AdminLogin from "../Page/AdminLogin";
@@ -14,7 +15,14 @@ const AllRoute = () => {
     <Routes>
       <Route path="/home" element={<Home />} />
       <Route path="/super_admin/login" element={<AdminLogin />} />
-      <Route path="/super_admin/dashboard" element={<AdminDashboard />} />
+      <Route
+        path="/super_admin/dashboard"
+        element={
+          <PrivateRoute>
+            <AdminDashboard />
+          </PrivateRoute>
+        }
+      />
       <Route path="/:name/login" element={<PartnerLogin />} />
       <Route path="/:name/add_event" element={<AddEvent />} />
       <Route path="/:name/thankyoupage" element={<ThankYou />} />

@@ -14,27 +14,31 @@ const AdminTable = ({ data }) => {
   const toast = useToast();
 
   const handleDelete = (id) => {
-    console.log(id);
+
     dispatch(deletePartnerToDatabase(id))
       .then((res) => {
+         console.log(res);
         dispatch(getPartnerData());
-        toast({
-          title: `Partner deleted successfully`,
-          status: "success",
-          duration: 5000,
-          position: "top",
-          isClosable: true,
-        });
+        if (res.message === "success") {
+              toast({
+                title: `Partner deleted successfully`,
+                status: "success",
+                duration: 5000,
+                position: "top",
+                isClosable: true,
+              });
+        } else {
+            toast({
+              title: `${res.response.data || "Something went wrong"}`,
+              status: "error",
+              duration: 5000,
+              position: "top",
+              isClosable: true,
+            });
+        }
+    
       })
-      .catch((er) => {
-        toast({
-          title: `${er.message}`,
-          status: "error",
-          duration: 5000,
-          position: "top",
-          isClosable: true,
-        });
-      });
+     
   };
 
   return (

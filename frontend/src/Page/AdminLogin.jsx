@@ -45,8 +45,8 @@ const AdminLogin = () => {
       })
       .catch((er) => {
         toast({
-          title: `${er.response?.data.message}`,
-          status: `${er.response?.data.status}`,
+          title: `${er.response?.data.message || "Something went wrong"}`,
+          status: `${er.response?.data.status || "error"}`,
           duration: 5000,
           isClosable: true,
           position: "top",

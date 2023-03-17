@@ -15,7 +15,7 @@ import {
 } from "./partner.type";
 
 const api = "http://localhost:8080";
-const email = JSON.parse(localStorage.getItem("email"));
+const token = JSON.parse(localStorage.getItem("token"));
 
 export const getPartnerData =
   (page = 1, limit = 10) =>
@@ -30,6 +30,7 @@ export const getPartnerData =
 
       return res;
     } catch (er) {
+     
       return dispatch({ type: GET_PARTNER_DATA_ERROR, payload: er });
     }
   };
@@ -38,12 +39,14 @@ export const addPartnerToDatabase = (data) => async (dispatch) => {
   dispatch({ type: ADD_PARTNER_DATA_LOADING });
   try {
     const res = await axios.post(`${api}/partner`, data, {
-      headers: { email: email },
+      headers: { token: token },
     });
     dispatch({ type: ADD_PARTNER_DATA_SUCCESS, payload: res.data.data });
     return res.data;
   } catch (er) {
-    return dispatch({ type: ADD_PARTNER_DATA_ERROR, payload: er });
+   
+    dispatch({ type: ADD_PARTNER_DATA_ERROR, payload: er })
+    return er
   }
 };
 
@@ -51,12 +54,13 @@ export const deletePartnerToDatabase = (id) => async (dispatch) => {
   dispatch({ type: DELETE_PARTNER_DATA_LOADING });
   try {
     const res = await axios.delete(`${api}/partner/${id}`, {
-      headers: { email: email },
+      headers: { token: token },
     });
     dispatch({ type: DELETE_PARTNER_DATA_SUCCESS, payload: res.data.data });
     return res.data;
   } catch (er) {
-    return dispatch({ type: DELETE_PARTNER_DATA_ERROR, payload: er });
+    dispatch({ type: DELETE_PARTNER_DATA_ERROR, payload: er });
+     return er;
   }
 };
 
@@ -65,11 +69,12 @@ export const updatePartnerToDatabase = (id, data) => async (dispatch) => {
   dispatch({ type: UPDATE_PARTNER_DATA_LOADING });
   try {
     const res = await axios.patch(`${api}/partner/${id}`, data, {
-      headers: { email: email },
+      headers: { token: token },
     });
     dispatch({ type: UPDATE_PARTNER_DATA_SUCCESS, payload: res.data.data });
     return res.data;
   } catch (er) {
-    return dispatch({ type: UPDATE_PARTNER_DATA_ERROR, payload: er });
+    dispatch({ type: UPDATE_PARTNER_DATA_ERROR, payload: er });
+    return er
   }
 };

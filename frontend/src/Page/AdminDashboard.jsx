@@ -23,7 +23,7 @@ const AdminDashboard = () => {
   const { data, length } = useSelector((store) => store.partner);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  console.log(length);
+
 
   useEffect(() => {
     dispatch(getPartnerData(page, limit));

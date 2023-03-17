@@ -43,9 +43,12 @@ const UpdatePartnerModal = ({ id }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updatePartnerToDatabase(id, { ...data, Login_link: getLink() }))
-      .then((res) => {
-        dispatch(getPartnerData());
+    dispatch(
+      updatePartnerToDatabase(id, { ...data, Login_link: getLink() })
+    ).then((res) => {
+      console.log(res);
+      dispatch(getPartnerData());
+      if (res.message === "success") {
         toast({
           title: "Partner data updated",
           status: "success",
@@ -53,16 +56,16 @@ const UpdatePartnerModal = ({ id }) => {
           position: "top",
           isClosable: true,
         });
-      })
-      .catch((er) => {
+      } else {
         toast({
-          title: `${er.message}`,
+          title: `${res.response.data || "Something went wrong"}`,
           status: "error",
           duration: 5000,
           position: "top",
           isClosable: true,
         });
-      });
+      }
+    });
   };
 
   return (

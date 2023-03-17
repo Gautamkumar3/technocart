@@ -1,7 +1,6 @@
 import { Button } from "@chakra-ui/react";
 
 function Pagination({ total, current, changePage }) {
-    console.log(total)
   let pages = new Array(total).fill(0).map((el, i) => {
     return (
       <Button
