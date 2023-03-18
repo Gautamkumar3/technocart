@@ -84,7 +84,6 @@ const sendMail = (email, otp) => {
 let otp;
 
 function deleteOtp(otp) {
-  console.log(otp, "deleteotp");
   setTimeout(async () => {
     let data = await OtpModal.deleteOne({ otp });
     console.log(data, "deleteddata");
@@ -93,6 +92,7 @@ function deleteOtp(otp) {
 
 const partnerLogin = async (req, res) => {
   const { email } = req.body;
+
   otp = Math.floor(Math.random() * 100000);
   try {
     let partnerData = await PartnerModal.findOne({ Partner_email: email });

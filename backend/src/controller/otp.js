@@ -9,7 +9,7 @@ const validateOTP = async (req, res) => {
     if (validate) {
       res.status(200).send({ status: "success", msg: "otp validated" });
     } else {
-      res.status(404).send({ status: "error", msg: "failed" });
+      res.status(404).send({ status: "error", msg: "OTP is incorrect please try again" });
     }
   } catch (er) {
     res.status(404).send({ status: "error", msg: er.message });

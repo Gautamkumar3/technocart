@@ -6,10 +6,12 @@ import {
   Input,
   PinInput,
   PinInputField,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Timer from "../component/Timer";
 
 const PartnerLogin = () => {
   const { name } = useParams();
@@ -18,6 +20,7 @@ const PartnerLogin = () => {
   const [emaildata, setEmaildata] = useState("");
   const [toogle, setToogle] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handlePinInput = (e) => {
     setPinData(e);
@@ -33,14 +36,27 @@ const PartnerLogin = () => {
       .post("http://localhost:8080/partner/login", { email: emaildata })
       .then((res) => {
         if (res.data.msg === "Login successfull") {
-          alert(
-            `you are successfully resigtered and otp has been send to your email id ${emaildata}`
-          );
+          toast({
+            title: `you are successfully resigtered and otp has been send to your email id ${emaildata}`,
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
+
           setEmaildata("");
           setToogle(true);
         }
       })
-      .catch((er) => alert("This email is not resistered"));
+      .catch((er) =>
+        toast({
+          title: "This email is not resistered",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        })
+      );
   };
 
   const verifyOtp = async () => {
@@ -48,14 +64,34 @@ const PartnerLogin = () => {
       .post("http://localhost:8080/otp", { otp: pindata })
       .then((res) => {
         if (res.data.status === "success") {
+          toast({
+            title: `OTP verified successfully you are redirected to add_event page`,
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
           setToogle(false);
           navigate(`/${name}/add_event`);
         } else {
-          alert("Something went worng");
+          toast({
+            title: `OTP is not correct please fill it again`,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
         }
       })
       .catch((er) => {
-        alert(er.message);
+        console.log(er);
+        toast({
+          title: `${er.response.data.msg || er.message}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
       });
   };
 
@@ -79,6 +115,10 @@ const PartnerLogin = () => {
 
         {toogle && (
           <Box>
+            <Box my={3}>
+              <Timer />
+            </Box>
+
             <PinInput otp onChange={handlePinInput}>
               <PinInputField />
               <PinInputField />
