@@ -36,7 +36,10 @@ const AddEvent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/event", { ...data, Event_photo: imageUrl })
+      .post("https://technocart-api-production.up.railway.app/event", {
+        ...data,
+        Event_photo: imageUrl,
+      })
       .then((res) => {
         toast({
           title: "Event created successfully.",

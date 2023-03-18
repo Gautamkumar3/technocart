@@ -15,7 +15,9 @@ import {
 import EventTable from "../component/EventTable";
 
 const getEvents = async () => {
-  let res = await axios.get("http://localhost:8080/event");
+  let res = await axios.get(
+    "https://technocart-api-production.up.railway.app/event"
+  );
   return res.data;
 };
 

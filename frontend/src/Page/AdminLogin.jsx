@@ -20,7 +20,10 @@ const AdminLogin = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/admin/login", data)
+      .post(
+        "https://technocart-api-production.up.railway.app/admin/login",
+        data
+      )
       .then((res) => {
         console.log(res.data);
         if ((res.data.message = "Login successfull")) {

@@ -33,8 +33,11 @@ const PartnerLogin = () => {
   const handleOTP = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:8080/partner/login", { email: emaildata })
+      .post("https://technocart-api-production.up.railway.app/partner/login", {
+        email: emaildata,
+      })
       .then((res) => {
+        console.log(res);
         if (res.data.msg === "Login successfull") {
           toast({
             title: `you are successfully resigtered and otp has been send to your email id ${emaildata}`,
@@ -61,7 +64,9 @@ const PartnerLogin = () => {
 
   const verifyOtp = async () => {
     axios
-      .post("http://localhost:8080/otp", { otp: pindata })
+      .post("https://technocart-api-production.up.railway.app/otp", {
+        otp: pindata,
+      })
       .then((res) => {
         localStorage.removeItem("token");
         localStorage.setItem("partner", "partner login success");

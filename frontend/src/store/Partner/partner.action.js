@@ -14,7 +14,8 @@ import {
   UPDATE_PARTNER_DATA_SUCCESS,
 } from "./partner.type";
 
-const api = "http://localhost:8080";
+// const api = "http://localhost:8080";
+const api = "https://technocart-api-production.up.railway.app";
 const token = JSON.parse(localStorage.getItem("token"));
 
 export const getPartnerData =
@@ -30,7 +31,6 @@ export const getPartnerData =
 
       return res;
     } catch (er) {
-     
       return dispatch({ type: GET_PARTNER_DATA_ERROR, payload: er });
     }
   };
@@ -44,9 +44,8 @@ export const addPartnerToDatabase = (data) => async (dispatch) => {
     dispatch({ type: ADD_PARTNER_DATA_SUCCESS, payload: res.data.data });
     return res.data;
   } catch (er) {
-   
-    dispatch({ type: ADD_PARTNER_DATA_ERROR, payload: er })
-    return er
+    dispatch({ type: ADD_PARTNER_DATA_ERROR, payload: er });
+    return er;
   }
 };
 
@@ -60,7 +59,7 @@ export const deletePartnerToDatabase = (id) => async (dispatch) => {
     return res.data;
   } catch (er) {
     dispatch({ type: DELETE_PARTNER_DATA_ERROR, payload: er });
-     return er;
+    return er;
   }
 };
 
@@ -75,6 +74,6 @@ export const updatePartnerToDatabase = (id, data) => async (dispatch) => {
     return res.data;
   } catch (er) {
     dispatch({ type: UPDATE_PARTNER_DATA_ERROR, payload: er });
-    return er
+    return er;
   }
 };

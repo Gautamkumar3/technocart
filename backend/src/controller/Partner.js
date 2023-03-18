@@ -57,8 +57,8 @@ const transport = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,
   auth: {
-    user: "technocart341998@gmail.com",
-    pass: "kfkrkztmrqvpapjv",
+    user: "techcart341998@gmail.com",
+    pass: "nupoupctjereplee",
   },
 });
 
@@ -66,7 +66,7 @@ const sendMail = (email, otp) => {
   transport
     .sendMail({
       to: email,
-      from: "technocart341998@gmail.com",
+      from: "techcart341998@gmail.com",
       subject: "Welcome",
       text: `Hello User,
               
@@ -92,10 +92,11 @@ function deleteOtp(otp) {
 
 const partnerLogin = async (req, res) => {
   const { email } = req.body;
-
+ console.log(email,"email")
   otp = Math.floor(Math.random() * 90000) + 10000;
   try {
     let partnerData = await PartnerModal.findOne({ Partner_email: email });
+    console.log(partnerData, "Sdfsd")
     if (partnerData) {
       sendMail(email, otp);
       let data = new OtpModal({ otp });
