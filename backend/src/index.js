@@ -8,17 +8,26 @@ const adminRouter = require("./route/adminRoute");
 const otpRouter = require("./route/otp");
 mongoose.set("strictQuery", true);
 require("dotenv").config();
-const session =  require('express-session') ;
+const session = require("express-session");
+const sessionKey = process.env.SESSION_KEY;
 
 const PORT = process.env.PORT || 8000;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(
+  session({
+    secret: sessionKey,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Welcome to technocart");
 });
+
 app.use("/event", eventRouter);
 app.use("/partner", partnerRouter);
 app.use("/admin", adminRouter);

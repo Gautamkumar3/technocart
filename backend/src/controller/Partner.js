@@ -93,7 +93,7 @@ function deleteOtp(otp) {
 const partnerLogin = async (req, res) => {
   const { email } = req.body;
 
-  otp = Math.floor(Math.random() * 100000);
+  otp = Math.floor(Math.random() * 90000) + 10000;
   try {
     let partnerData = await PartnerModal.findOne({ Partner_email: email });
     if (partnerData) {

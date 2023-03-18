@@ -63,9 +63,11 @@ const PartnerLogin = () => {
     axios
       .post("http://localhost:8080/otp", { otp: pindata })
       .then((res) => {
+        localStorage.removeItem("token");
+        localStorage.setItem("partner", "partner login success");
         if (res.data.status === "success") {
           toast({
-            title: `OTP verified successfully you are redirected to add_event page`,
+            title: `OTP verified you are redirected to add_event page`,
             status: "success",
             duration: 5000,
             isClosable: true,

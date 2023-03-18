@@ -38,7 +38,23 @@ const AddEvent = () => {
     axios
       .post("http://localhost:8080/event", { ...data, Event_photo: imageUrl })
       .then((res) => {
+        toast({
+          title: "Event created successfully.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
         navigate(`/${name}/thankyoupage`);
+      })
+      .catch((er) => {
+        toast({
+          title: `${er.message}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
       });
   };
 

@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
+
 
 const PartnerSchema = new mongoose.Schema({
   Partner_name: {
@@ -9,6 +11,7 @@ const PartnerSchema = new mongoose.Schema({
     type: String,
     required: [true, "Partner email is missing"],
     unique: [true, "Email id must be unique"],
+    validate: [validator.isEmail, "Please enter valid email address"],
   },
   Login_link: {
     type: String,
